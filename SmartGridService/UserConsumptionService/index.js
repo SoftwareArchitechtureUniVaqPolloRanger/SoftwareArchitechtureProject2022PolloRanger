@@ -1,0 +1,19 @@
+const express = require('express');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const HomeConsumption = require('./HomeConsumption/HomeConsumptionRouter')
+const OfficeConsumption = require('./OfficeConsumption/OfficeConsumptionRoutes');
+const IndustryConsumption = require('./IndustryConsumption/IndustryConsumptionRoutes');
+const app = express();
+
+mongoose.connect("mongodb://127.0.0.1:27017/UserConsumptionService");
+app.use(bodyParser.json())
+app.use('/smart-grid/user-consumption', HomeConsumption);
+app.use('/smart-grid/user-consumption', OfficeConsumption);
+app.use('/smart-grid/user-consumption', IndustryConsumption);
+
+const port = 4000;
+
+app.listen(port, () => {
+    console.log('hearing on userConsumption');
+})
