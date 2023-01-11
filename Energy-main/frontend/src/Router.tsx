@@ -8,6 +8,7 @@ import { Consumption } from './Consumer/components/Consumption';
 import { Availability } from './Consumer/components/Availability';
 import { Cost } from './Consumer/components/Cost';
 import Admin from './Admin/Admin';
+import { ProtectedComponent } from './Auth/ProtectedComponent';
 
 const router = createBrowserRouter([
   {
@@ -16,7 +17,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/consumer",
-    element: <Consumer />,
+    element: <ProtectedComponent><Consumer /></ProtectedComponent>,
     children: [{
       path: "consumption",
       element: <Consumption />

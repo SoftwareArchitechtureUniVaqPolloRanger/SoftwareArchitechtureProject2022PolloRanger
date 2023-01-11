@@ -9,6 +9,18 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import styles from './Signin.module.css'
+import { Navigate, useNavigate } from 'react-router-dom';
+
+const users = [{
+  username: "elixir-office",
+  type: "consumer"
+}, {
+  username: "kohinoor-textile-mill",
+  type: "consumer"
+}, {
+  username: "G94-house-1",
+  type: "consumer"
+}]
 
 function Copyright(props: any) {
   return (
@@ -24,13 +36,34 @@ function Copyright(props: any) {
 }
 
 export default function SignIn() {
+  const navigate = useNavigate();
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    const username = data.get('username');
+    const user = users.find((_user) => {
+      return _user.username === username
+    })
     console.log({
-      email: data.get('email'),
+      username: data.get('username'),
       password: data.get('password'),
     });
+    if (!user) {
+      alert('Invalid username or password')
+      return;
+    }
+    localStorage.setItem('authInfo', JSON.stringify({
+      username: user.username,
+      type: user.type
+    }));
+    switch (user.type) {
+      case "consumer":
+        return navigate("/consumer/consumption")
+        break;
+      case "admin":
+        return navigate('/admin')
+        break;
+    }
   };
 
   return (
@@ -55,10 +88,10 @@ export default function SignIn() {
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              id="username"
+              label="Username"
+              name="username"
+              autoComplete="username"
             />
             <TextField
               margin="normal"
@@ -74,7 +107,7 @@ export default function SignIn() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3}}
+              sx={{ mt: 3 }}
             >
               Sign In
             </Button>
