@@ -7,7 +7,7 @@ import { Container } from '@mui/system';
 import { Button, Tabs } from '@mui/material';
 import Tab from "@mui/material/Tab";
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 
 function getCurrentTab() {
   switch(window.location.pathname) {
@@ -24,9 +24,15 @@ function getCurrentTab() {
 
 export default function Dashboard() {
   const [value, setValue] = useState(getCurrentTab())
+  const navigate = useNavigate();
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+  const logout = (e: any) => {
+    localStorage.removeItem('authInfo');
+    navigate('/signin')
+  }
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -35,7 +41,7 @@ export default function Dashboard() {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               News
             </Typography>
-            <Button color="inherit">
+            <Button color="inherit" onClick={logout}>
               Log out
               <ExitToAppIcon />
             </Button>

@@ -13,13 +13,16 @@ import { Navigate, useNavigate } from 'react-router-dom';
 
 const users = [{
   username: "elixir-office",
-  type: "consumer"
+  type: "consumer",
+  consumerType: "office",
 }, {
   username: "kohinoor-textile-mill",
-  type: "consumer"
+  type: "consumer",
+  consumerType: "industry"
 }, {
   username: "G94-house-1",
-  type: "consumer"
+  type: "consumer",
+  consumerType: "home"
 }]
 
 function Copyright(props: any) {
@@ -52,10 +55,7 @@ export default function SignIn() {
       alert('Invalid username or password')
       return;
     }
-    localStorage.setItem('authInfo', JSON.stringify({
-      username: user.username,
-      type: user.type
-    }));
+    localStorage.setItem('authInfo', JSON.stringify(user));
     switch (user.type) {
       case "consumer":
         return navigate("/consumer/consumption")
