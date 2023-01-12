@@ -8,13 +8,19 @@ import urllib
 import xmltodict
 import pandas as pd
 
+from flask_cors import CORS, cross_origin
+
+
 from datetime import datetime, timedelta #TIME
 
 #API
 import json
 from flask import Flask, jsonify, request
-  
+
+
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 def convert_timerange(timerange):
 	datetimeobj = datetime.strptime(timerange, '%Y%m%d%H%M')
@@ -41,6 +47,7 @@ def convert_kode_cuaca(weather_code):
 	return func
 
 @app.route('/sun', methods=['GET'])
+@cross_origin()
 def getIndonesiaWeatherEnergy():
 	xml_url = 'https://data.bmkg.go.id/DataMKG/MEWS/DigitalForecast/DigitalForecast-Indonesia.xml'
 	xml_data = urllib.request.urlopen(xml_url)
@@ -73,6 +80,7 @@ def getIndonesiaWeatherEnergy():
 	return jsonify(weather_BMKG)
 
 @app.route('/wave', methods=['GET'])
+@cross_origin()
 def calculateIndonesiaWaveEnergy():
 	if(request.method == 'GET'):
 		presentday = datetime.now()
@@ -109,10 +117,10 @@ def calculateIndonesiaWaveEnergy():
 					wavedict = {
 						"Prediction_Date": dateToBeCheck.strftime('%d/%m/%Y'),
 						"Wave_Height_Title": wave_type.find('h4').text,
-						"Wave_Height_Lower": WaveHeightRange[0],
-						"Wave_Height_Upper": WaveHeightRange[1],
+						"Wave_Height_Lower": float(WaveHeightRange[0]),
+						"Wave_Height_Upper": float(WaveHeightRange[1]),
 						"Average_Wave_Height": AverageWaveHeight,
-						"Wave_Energy (in J/m2)": WaveEnergy,
+						"Wave_Energy": WaveEnergy,
 						"Sea_Names": ArrayListOfSeaTrim
 					}
 

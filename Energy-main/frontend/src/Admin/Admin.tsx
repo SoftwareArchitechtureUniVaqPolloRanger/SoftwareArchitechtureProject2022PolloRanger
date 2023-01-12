@@ -9,6 +9,7 @@ import { UserConsumption } from "./UserConsumption";
 import { Availability } from "./Availability";
 import { Predictions } from "./Predictions";
 import { Distributions } from "./Distributions";
+import { WaveCards } from "./WaveCards";
 
 export default function Admin() {
   return (
@@ -39,6 +40,9 @@ export default function Admin() {
           </Grid>
           <Grid item xs={12}>
             <WeatherCards />
+          </Grid>
+          <Grid item xs={12}>
+            <WaveCards />
           </Grid>
         </Grid>
         <Grid item xs={12}>
