@@ -1,4 +1,7 @@
+import React, { useState, useEffect } from 'react'
 import { Bar } from "react-chartjs-2";
+import axios from 'axios'
+import { CHART_COLORS } from '../utils/colors';
 
 export const options = {
   responsive: true,
@@ -40,10 +43,40 @@ const consumption = {
 };
 
 export function UserConsumption() {
+  const [labels, setLabels] = useState([]);
+  const [totalValue, setTotalValue] = useState("");
+  const [datasets, setDatasets] = useState([]);
+  useEffect(() => {
+    //@ts-ignore
+    const usage = [];
+    
+    Promise.all([
+      axios.get(`http://localhost:4000/smart-grid/user-consumption/home-consumption/timestamp/2023-01-11T01:00:00Z`),
+      axios.get(`http://localhost:4000/smart-grid/user-consumption/office-consumption/timestamp/2023-01-11T01:00:00Z`),
+      axios.get(`http://localhost:4000/smart-grid/user-consumption/office-consumption/timestamp/2023-01-11T01:00:00Z`)
+    ]).then(responses => {
+      responses.forEach((resp, index) => {
+        usage.push(resp.data.totalUnits)
+      });
+      //@ts-ignore
+      setTotalValue(usage.reduce((acc, val) => acc+val, 0))
+            // @ts-ignore
+
+      setDatasets([{
+        label: 'Users',
+        // @ts-ignore
+        data: usage,
+        backgroundColor: CHART_COLORS.blue
+      }])
+    })
+    
+  }, [])
+
+
   return (
     <>
-      <h2>User Consumption: 20 MW</h2>
-      <Bar options={options} data={consumption} />
+      <h2>User Consumption: {totalValue} MW</h2>
+      <Bar options={options} data={{ labels: consumptionLabels, datasets: datasets }} />
     </>
   );
 }

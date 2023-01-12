@@ -17,7 +17,10 @@ export default function Admin() {
         <Container>
           <Toolbar>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              News
+              {
+                //@ts-ignore
+                JSON.parse(localStorage.getItem('authInfo')).username
+              }
             </Typography>
             <Button color="inherit">
               Log out

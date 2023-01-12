@@ -22,7 +22,11 @@ const users = [{
 }, {
   username: "G94-house-1",
   type: "consumer",
-  consumerType: "home"
+  consumerType: "home",
+},
+{
+  username: "admin",
+  type: "admin"
 }]
 
 function Copyright(props: any) {

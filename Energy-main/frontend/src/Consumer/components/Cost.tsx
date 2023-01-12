@@ -14,6 +14,7 @@ import { Bar, Line } from 'react-chartjs-2';
 import { Grid } from '@mui/material';
 import axios from 'axios'
 import { withTheme } from '@emotion/react';
+import { CHART_COLORS } from '../../utils/colors';
 
 ChartJS.register(
   CategoryScale,
@@ -222,7 +223,7 @@ export function Cost() {
         //@ts-ignore
         data: totalData,
         borderColor: '#BCAAA4',
-        backgroundColor: "white"
+        backgroundColor: CHART_COLORS.blue
       }
     ])
     setMarine([
