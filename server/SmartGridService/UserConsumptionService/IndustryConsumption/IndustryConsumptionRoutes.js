@@ -5,18 +5,18 @@ var IndustryConsumptionModel = require('./IndustryConsumptionModel.js')
 /*
  * GET
  */
-router.get('/industry-consumption/', IndustryConsumptionController.list);
+router.get('/', IndustryConsumptionController.list);
 
 
 /*
  * GET
  */
-router.get('/industry-consumption/:id', IndustryConsumptionController.show);
+router.get('/:id', IndustryConsumptionController.show);
 
 /*
  * GET with time
  */
-router.get('/industry-consumption/timestamp/:timestamp', function (req, res) {
+router.get('/timestamp/:timestamp', function (req, res) {
     var timestamp = req.params.timestamp;
     IndustryConsumptionModel.findOne({ timestamp: timestamp }, function (err, IndustryConsumption) {
         if (err) {
@@ -33,7 +33,7 @@ router.get('/industry-consumption/timestamp/:timestamp', function (req, res) {
         return res.json(IndustryConsumption);
     });
 })
-router.get('/industry-consumption/industryId/:industryId', function (req, res) {
+router.get('/industryId/:industryId', function (req, res) {
     var industryId = req.params.industryId;
     IndustryConsumptionModel.find({ industryId: industryId }, function (err, IndustryConsumption) {
         if (err) {
@@ -55,16 +55,16 @@ router.get('/industry-consumption/industryId/:industryId', function (req, res) {
 /*
  * POST
  */
-router.post('/industry-consumption/', IndustryConsumptionController.create);
+router.post('/', IndustryConsumptionController.create);
 
 /*
  * PUT
  */
-router.put('/industry-consumption/:id', IndustryConsumptionController.update);
+router.put('/:id', IndustryConsumptionController.update);
 
 /*
  * DELETE
  */
-router.delete('/industry-consumption/:id', IndustryConsumptionController.remove);
+router.delete('/:id', IndustryConsumptionController.remove);
 
 module.exports = router;

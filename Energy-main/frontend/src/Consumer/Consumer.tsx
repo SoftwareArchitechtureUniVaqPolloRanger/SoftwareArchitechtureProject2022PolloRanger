@@ -39,7 +39,9 @@ export default function Dashboard() {
         <Container>
           <Toolbar>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              News
+             {  //@ts-ignore 
+             JSON.parse(localStorage?.getItem('authInfo'))?.username
+             }   
             </Typography>
             <Button color="inherit" onClick={logout}>
               Log out

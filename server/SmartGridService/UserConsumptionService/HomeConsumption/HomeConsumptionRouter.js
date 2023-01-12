@@ -5,17 +5,17 @@ var HomeConsumptionModel = require('./HomeConsumptionModel.js')
 /*
  * GET
  */
-router.get('/home-consumption/', HomeConsumptionController.list);
+router.get('/', HomeConsumptionController.list);
 
 /*
  * GET
  */
-router.get('/home-consumption/:id', HomeConsumptionController.show);
+router.get('/:id', HomeConsumptionController.show);
 
 /*
  * GET with time
  */
-router.get('/home-consumption/timestamp/:timestamp', function (req, res) {
+router.get('/timestamp/:timestamp', function (req, res) {
     var timestamp = req.params.timestamp;
     HomeConsumptionModel.findOne({ timestamp: timestamp }, function (err, HomeConsumption) {
         if (err) {
@@ -37,7 +37,7 @@ router.get('/home-consumption/timestamp/:timestamp', function (req, res) {
 /*
  * GET with userId
  */
-router.get('/home-consumption/userId/:userId', function (req, res) {
+router.get('/userId/:userId', function (req, res) {
     var userId = req.params.userId;
     HomeConsumptionModel.find({ userId: userId }, function (err, HomeConsumption) {
         if (err) {
@@ -59,16 +59,16 @@ router.get('/home-consumption/userId/:userId', function (req, res) {
 /*
  * POST
  */
-router.post('/home-consumption/', HomeConsumptionController.create);
+router.post('/', HomeConsumptionController.create);
 
 /*
  * PUT
  */
-router.put('/home-consumption/:id', HomeConsumptionController.update);
+router.put('/:id', HomeConsumptionController.update);
 
 /*
  * DELETE
  */
-router.delete('/home-consumption/:id', HomeConsumptionController.remove);
+router.delete('/:id', HomeConsumptionController.remove);
 
 module.exports = router;

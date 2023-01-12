@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const powerDistribution = require('./PowerDistribution/PowerDistributionRoutes');
 var cron = require('node-cron');
 const axios = require('axios');
+const cors = require('cors')
 const PowerDistributionModel = require('./PowerDistribution/PowerDistributionModel')
 
 const app = express();
@@ -11,6 +12,7 @@ const port = 4002;
 app.use(bodyParser.json());
 
 mongoose.connect('mongodb://127.0.0.1:27017/PowerDistributionService')
+app.use(cors());
 app.use('/power-supplier/power-distribution', powerDistribution);
 app.listen(port, () => console.log('hearing on 4002'));
 
@@ -105,7 +107,7 @@ async function cronJob() {
         console.log(industrySupply, officeSupply, homeSupply)
         try {
             var PowerDistribution = new PowerDistributionModel({
-                timestamp: "2018-04-03T08:01:20.269Z",
+                timestamp: (new Date()).toString(),
                 residentialAreaSupply: homeSupply,
                 officeSupply: officeSupply,
                 industrialSupply: industrySupply,

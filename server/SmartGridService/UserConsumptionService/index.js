@@ -12,9 +12,9 @@ const app = express();
 mongoose.connect("mongodb://127.0.0.1:27017/UserConsumptionService");
 app.use(bodyParser.json())
 app.use(cors())
-app.use('/smart-grid/user-consumption', HomeConsumption);
-app.use('/smart-grid/user-consumption', OfficeConsumption);
-app.use('/smart-grid/user-consumption', IndustryConsumption);
+app.use('/smart-grid/user-consumption/home-consumption', HomeConsumption);
+app.use('/smart-grid/user-consumption/office-consumption', OfficeConsumption);
+app.use('/smart-grid/user-consumption/industry-consumption', IndustryConsumption);
 
 const port = 4000;
 

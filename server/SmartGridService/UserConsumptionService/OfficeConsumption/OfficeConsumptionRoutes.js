@@ -6,17 +6,17 @@ var OfficeConsumptionController = require('./OfficeConsumptionController.js');
 /*
  * GET
  */
-router.get('/office-consumption/', OfficeConsumptionController.list);
+router.get('/', OfficeConsumptionController.list);
 
 /*
  * GET
  */
-router.get('/office-consumption/:id', OfficeConsumptionController.show);
+router.get('/:id', OfficeConsumptionController.show);
 
 /*
  * GET with time
  */
-router.get('/office-consumption/timestamp/:timestamp', function (req, res) {
+router.get('/timestamp/:timestamp', function (req, res) {
     var timestamp = req.params.timestamp;
     OfficeConsumptionModel.findOne({ timestamp: timestamp }, function (err, OfficeConsumption) {
         if (err) {
@@ -33,7 +33,7 @@ router.get('/office-consumption/timestamp/:timestamp', function (req, res) {
         return res.json(OfficeConsumption);
     });
 })
-router.get('/office-consumption/officeId/:officeId', function (req, res) {
+router.get('/officeId/:officeId', function (req, res) {
     var officeId = req.params.officeId;
     OfficeConsumptionModel.find({ officeId: officeId }, function (err, OfficeConsumption) {
         if (err) {
@@ -55,16 +55,16 @@ router.get('/office-consumption/officeId/:officeId', function (req, res) {
 /*
  * POST
  */
-router.post('/office-consumption/', OfficeConsumptionController.create);
+router.post('/', OfficeConsumptionController.create);
 
 /*
  * PUT
  */
-router.put('/office-consumption/:id', OfficeConsumptionController.update);
+router.put('/:id', OfficeConsumptionController.update);
 
 /*
  * DELETE
  */
-router.delete('/office-consumption/:id', OfficeConsumptionController.remove);
+router.delete('/:id', OfficeConsumptionController.remove);
 
 module.exports = router;

@@ -97,7 +97,9 @@ export function Consumption() {
         .then((res) => {
           console.log(res.data)
           const timeStamps = res.data.map((times: Resp) => {
-            return new Date(times.timestamp).getHours()
+            const timeData = new Date(times.timestamp).getHours()
+            const day = timeData >= 12 ? 'pm' : 'am'
+            return timeData + day
           })
           setLabels(timeStamps)
           const formattedData: { [key: string]: number[] } = {};
@@ -115,17 +117,21 @@ export function Consumption() {
             return {
               label: key,
               data: value,
-              backgroundColor: Object.values(CHART_COLORS)[index%6]
+              backgroundColor: Object.values(CHART_COLORS)[index % 6]
             }
           })
           setDataset(datasets)
         })
-        .catch(err => alert("Failed to fetch the data"))
+        .catch(err => {
+          console.error(err)
+
+        })
     } catch (error) {
 
     }
   }, [])
   return (<div>
+    <h2 className='d-flex justify-content-center align-items-center'>Consumption Data of whole day. </h2>
     <Bar options={options} data={{ labels, datasets: dataset }} />
   </div>)
 }
