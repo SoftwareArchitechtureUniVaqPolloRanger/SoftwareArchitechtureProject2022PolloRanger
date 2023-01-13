@@ -75,7 +75,7 @@ export function UserConsumption() {
 
   return (
     <>
-      <h2>User Consumption: {totalValue} MW</h2>
+      <h2>User Consumption: {totalValue} kW</h2>
       <Bar options={options} data={{ labels: consumptionLabels, datasets: datasets }} />
     </>
   );

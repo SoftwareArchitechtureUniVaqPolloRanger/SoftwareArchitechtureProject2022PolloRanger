@@ -13,14 +13,14 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 
-interface WaveModel {
+export interface WaveModel {
   Wave_Energy: number;
   Wave_Height_Upper: number;
   Wave_Height_Lower: number;
   Prediction_Date: string;
 };
 
-export function WaveCards() {
+export function WaveCards({ onSelect }: { onSelect: (waveModel: WaveModel) => void }) {
   const [waveData, setWaveData] = useState<WaveModel[]>([]);
   const [loading, setLoading] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -53,7 +53,7 @@ export function WaveCards() {
         {loading && 'Loading...'}
         {waveData.map((wave, index) => (
           <Grid item xs={3}>
-            <Paper elevation={index === selectedIndex ? 10 : 1} onClick={() => setSelectedIndex(index)} sx={{ borderRadius: "24px", cursor: 'pointer', position: 'relative', padding: '16px' }}>
+            <Paper elevation={index === selectedIndex ? 10 : 1} onClick={() => {setSelectedIndex(index); onSelect(wave)}} sx={{ borderRadius: "24px", cursor: 'pointer', position: 'relative', padding: '16px' }}>
               {/* <CardContent sx={{ paddingBottom: '6px !important', }> */}
               <Typography
                 sx={{ fontSize: 14 }}

@@ -103,6 +103,40 @@ module.exports = {
             });
         });
     },
+    updateData: function (req, res) {
+        var timestamp = req.params.timestamp;
+        PowerDistributionModel.findOne({ timestamp: timestamp }, function (err, PowerDistribution) {
+            if (err) {
+                return res.status(500).json({
+                    message: 'Error when getting PowerDistribution',
+                    error: err
+                });
+            }
+            if (!PowerDistribution) {
+                return res.status(404).json({
+                    message: 'No such PowerDistribution'
+                });
+            }
+
+            PowerDistribution.timestamp = req.body.timestamp ? req.body.timestamp : PowerDistribution.timestamp;
+            PowerDistribution.residentialAreaSupply = req.body.residentialAreaSupply ? req.body.residentialAreaSupply : PowerDistribution.residentialAreaSupply;
+            PowerDistribution.officeSupply = req.body.officeSupply ? req.body.officeSupply : PowerDistribution.officeSupply;
+            PowerDistribution.industrialSupply = req.body.industrialSupply ? req.body.industrialSupply : PowerDistribution.industrialSupply;
+            PowerDistribution.cost = req.body.cost ? req.body.cost : PowerDistribution.cost;
+
+            PowerDistribution.save(function (err, PowerDistribution) {
+                if (err) {
+                    return res.status(500).json({
+                        message: 'Error when updating PowerDistribution.',
+                        error: err
+                    });
+                }
+
+                return res.json(PowerDistribution);
+            });
+        });
+    },
+
 
     /**
      * PowerDistributionController.remove()

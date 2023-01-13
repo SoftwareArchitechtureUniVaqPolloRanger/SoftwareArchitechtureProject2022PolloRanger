@@ -23,22 +23,24 @@ enum WeatherType {
   Sunny = "Sunny",
 }
 
-interface WeatherModel {
+export interface WeatherModel {
   time: string;
   temperature: number;
   weather: WeatherType;
   cloudCover: number;
 };
 
-function formatHour(hour: number) {
-  const over12 = hour > 12;
-  hour = hour % 12
-  return `${hour < 10 ? '0' : ''}${hour}:00 ${over12 ? 'PM' : 'AM'}`
+function formatMonth(month: number) {
+  const monthNames = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+  return monthNames[month]
 }
 
-export function WeatherCards() {
+export function WeatherCards({ onSelect }: { onSelect: (weatherModel: WeatherModel) => void }) {
   const [weatherData, setWeatherData] = useState<WeatherModel[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
+
   useEffect(() => {
     axios.get('https://api.open-meteo.com/v1/forecast?latitude=-6.211051&longitude=106.845910&hourly=temperature_2m,weathercode,cloudcover')
       .then(resp => {
@@ -62,7 +64,7 @@ export function WeatherCards() {
           data.push({
             temperature: temperature[index],
             weather: weatherType,
-            time: `${formatHour(new Date().getHours() + index)}`,
+            time: `${formatMonth(new Date().getMonth())} ${new Date().getDate() + index}`,
             cloudCover: cloudcover[index]
           })
         })
@@ -75,7 +77,10 @@ export function WeatherCards() {
       <Grid container spacing={'10px'}>
         {weatherData.map((weather, index) => (
           <Grid item xs={2}>
-            <Paper elevation={index === selectedIndex ? 10 : 1} onClick={() => setSelectedIndex(index)} sx={{ borderRadius: "24px", cursor: 'pointer', position: 'relative', padding: '16px' }}>
+            <Paper key={index} elevation={index === selectedIndex ? 10 : 1} onClick={() => {
+              setSelectedIndex(index);
+              onSelect(weather);
+            }} sx={{ borderRadius: "24px", cursor: 'pointer', position: 'relative', padding: '16px' }}>
               {/* <CardContent sx={{ paddingBottom: '6px !important', }> */}
               <Typography
                 sx={{ fontSize: 14 }}

@@ -64,7 +64,7 @@ export function Availability() {
       const energyData = dataArr.reduce((acc, val) => acc+val, 0)
     //@ts-ignore
     //@ts-ignore
-    setTotalEnergyData(`${energyData} MW`);
+    setTotalEnergyData(`${energyData} kW`);
 
     })
     //@ts-ignore

@@ -8,6 +8,8 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import {Weather} from './Weather'
+
 import { Bar } from 'react-chartjs-2';
 import { CHART_COLORS } from '../../utils/colors';
 import axios from 'axios'
@@ -133,5 +135,7 @@ export function Consumption() {
   return (<div>
     <h2 className='d-flex justify-content-center align-items-center'>Consumption Data of whole day. </h2>
     <Bar options={options} data={{ labels, datasets: dataset }} />
+    <h2 className='m-4 d-lex align-items-center justify-conten-center'>Predictions</h2>
+    <Weather />
   </div>)
 }

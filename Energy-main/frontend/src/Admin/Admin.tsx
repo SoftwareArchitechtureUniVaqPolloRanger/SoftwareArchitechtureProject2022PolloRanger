@@ -1,17 +1,28 @@
+import {useState} from 'react'
 import Typography from "@mui/material/Typography";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { Button, Container, Grid } from "@mui/material";
-import { WeatherCards } from "./WeatherCards";
+import { WeatherCards, WeatherModel } from "./WeatherCards";
 import { UserConsumption } from "./UserConsumption";
 import { Availability } from "./Availability";
 import { Predictions } from "./Predictions";
 import { Distributions } from "./Distributions";
-import { WaveCards } from "./WaveCards";
+import { WaveCards, WaveModel } from "./WaveCards";
+import {useNavigate} from 'react-router-dom'
 
 export default function Admin() {
+  const [selectedWave, setSelectedWave] = useState<WaveModel>()
+  const [selectedWeather, setSelectedWeather] = useState<WeatherModel>()
+  const navigate = useNavigate();
+
+  const logout = (e: any) => {
+    localStorage.removeItem('authInfo');
+    navigate('/signin')
+  }
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -23,7 +34,7 @@ export default function Admin() {
                 JSON.parse(localStorage.getItem('authInfo')).username
               }
             </Typography>
-            <Button color="inherit">
+            <Button color="inherit" onClick={logout}>
               Log out
               <ExitToAppIcon />
             </Button>
@@ -39,14 +50,14 @@ export default function Admin() {
             <Availability />
           </Grid>
           <Grid item xs={12}>
-            <WeatherCards />
+            <WeatherCards onSelect={setSelectedWeather} />
           </Grid>
           <Grid item xs={12}>
-            <WaveCards />
+            <WaveCards onSelect={setSelectedWave} />
           </Grid>
         </Grid>
         <Grid item xs={12}>
-          <Predictions />
+          <Predictions wave = {selectedWave} weather={selectedWeather}/>
         </Grid>
         <Grid item xs={12}>
           <Distributions />

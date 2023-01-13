@@ -22,6 +22,8 @@ router.post('/', PowerDistributionController.create);
  */
 router.put('/:id', PowerDistributionController.update);
 
+router.put('/timestamp/:timestamp', PowerDistributionController.updateData);
+
 /*
  * DELETE
  */
