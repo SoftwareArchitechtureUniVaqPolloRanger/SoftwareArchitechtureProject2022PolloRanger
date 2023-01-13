@@ -8,7 +8,7 @@ in the project root, go to server folder ,  locate PowerPlantService, and do "np
 
 locate SmartGridService, then go inside UserConsumptionService and do "npm install" then "node index" , it will run this service, it has port 4000
 
-locate PowerDistributorService, then go inside PowerDistribution service , do "npm install", then "node index", it has port 400
+locate PowerDistributorService, then go inside PowerDistribution service , do "npm install", then "node index", it has port 4002
 
 locate PredictionForWaveAndSunInIndonesia, do "python API_Prediction.py", you will receive errors, fix them by installing necessary packages with command "pip install   BeautifulSoup" or "pip install flask"
 
