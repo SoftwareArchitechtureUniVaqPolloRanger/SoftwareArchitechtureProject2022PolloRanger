@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import { useState } from 'react'
 import Typography from "@mui/material/Typography";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -11,7 +11,7 @@ import { Availability } from "./Availability";
 import { Predictions } from "./Predictions";
 import { Distributions } from "./Distributions";
 import { WaveCards, WaveModel } from "./WaveCards";
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 export default function Admin() {
   const [selectedWave, setSelectedWave] = useState<WaveModel>()
@@ -52,6 +52,12 @@ export default function Admin() {
             <Availability fossilFuel={fossilFuelToggle} geoThermal={geoThermalToggle} />
           </Grid>
           <Grid item xs={12}>
+            <Distributions
+              onGeothermalUpdate={(value) => setGeoThermalToggle(value)}
+              onFossilFuelUpdate={(value) => setFossilFuelToggle(value)}
+            />
+          </Grid>
+          <Grid item xs={12}>
             <WeatherCards onSelect={setSelectedWeather} />
           </Grid>
           <Grid item xs={12}>
@@ -59,14 +65,9 @@ export default function Admin() {
           </Grid>
         </Grid>
         <Grid item xs={12}>
-          <Predictions wave = {selectedWave} weather={selectedWeather}/>
+          <Predictions wave={selectedWave} weather={selectedWeather} />
         </Grid>
-        <Grid item xs={12}>
-          <Distributions 
-            onGeothermalUpdate={(value) => setGeoThermalToggle(value)}
-            onFossilFuelUpdate={(value) => setFossilFuelToggle(value)}
-          />
-        </Grid>
+
         <br />
         <br />
         <br />

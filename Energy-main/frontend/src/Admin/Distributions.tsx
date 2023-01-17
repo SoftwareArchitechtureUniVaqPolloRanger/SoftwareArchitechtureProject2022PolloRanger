@@ -5,7 +5,6 @@ import axios from 'axios'
 type VoidFunction = (value: boolean) => void
 
 export function Distributions({ onGeothermalUpdate, onFossilFuelUpdate }: { onGeothermalUpdate: VoidFunction, onFossilFuelUpdate: VoidFunction }) {
-  const [available, setAvailable] = useState(0);
   const [demand, setDemand] = useState(0);
   const [gap, setGap] = useState(0);
   const [homePower, setHomePower] = useState(0)
@@ -13,6 +12,9 @@ export function Distributions({ onGeothermalUpdate, onFossilFuelUpdate }: { onGe
   const [industryPower, setIndustryPower] = useState(0)
   const [geothermal, setGeoThermal] = useState({ value: 0, cost: 0 });
   const [fossilFuel, setFossilFuel] = useState({ value: 0, cost: 0 })
+  const [hydro, setHydro] = useState(0)
+  const [solar, setSolar] = useState(0)
+  const available = solar + hydro + geothermal.value + fossilFuel.value;
 
   useEffect(() => {
     //@ts-ignore
@@ -44,9 +46,8 @@ export function Distributions({ onGeothermalUpdate, onFossilFuelUpdate }: { onGe
     let dataArr = []
     axios.get(`http://localhost:3001/power-plant/timestamp/2023-01-11T01:00:00Z`).then(response => {
       dataArr = [response?.data?.hydro?.power, response?.data?.solar?.power, response?.data?.geothermal?.power, response?.data?.fossilFuel?.power]
-      const energyData = dataArr.reduce((acc, val) => acc + val, 0)
-      setAvailable(energyData);
-
+      setHydro(response?.data?.hydro?.power || 0)
+      setSolar(response?.data?.solar?.power)
     })
     //@ts-ignore
     //@ts-ignore
@@ -59,7 +60,7 @@ export function Distributions({ onGeothermalUpdate, onFossilFuelUpdate }: { onGe
     else if (available - demand >= 0) {
       setGap(0)
     }
-  }, [])
+  }, [geothermal, fossilFuel, hydro, solar])
   //@ts-ignore
   const setHome = (e, v) => {
     setHomePower(v)
@@ -167,7 +168,7 @@ export function Distributions({ onGeothermalUpdate, onFossilFuelUpdate }: { onGe
               <Typography variant="h5" component="div" color="#2196f3">
                 Available
               </Typography>
-              <Typography variant="h2" fontWeight={500} color="#4caf50">{available + "kW"}</Typography>
+              <Typography variant="h2" fontWeight={500} color="#4caf50">{available} kW</Typography>
             </CardContent>
           </Card>
         </Grid>
