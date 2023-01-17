@@ -12,6 +12,10 @@ import { ProtectedComponent } from './Auth/ProtectedComponent';
 
 const router = createBrowserRouter([
   {
+    path: "/",
+    element: <SignIn />,
+  },
+  {
     path: "/signin",
     element: <SignIn />,
   },
