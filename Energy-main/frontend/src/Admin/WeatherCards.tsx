@@ -47,7 +47,8 @@ export function WeatherCards({ onSelect }: { onSelect: (weatherModel: WeatherMod
         const data: WeatherModel[] = [];
         const temperature = resp.data.hourly.temperature_2m.slice(6);
         const cloudcover = resp.data.hourly.cloudcover.slice(6);
-        resp.data.hourly.weathercode.slice(0, 6).forEach((code: number, index: number) => {
+        [0 ,23 ,47 ,71 ,95 ,121].forEach(index => {
+          const code = resp.data.hourly.weathercode[index];
           let weatherType = WeatherType.Sunny;
           if (code === 0 || code === 1) {
             weatherType = WeatherType.Sunny
@@ -67,7 +68,7 @@ export function WeatherCards({ onSelect }: { onSelect: (weatherModel: WeatherMod
             time: `${formatMonth(new Date().getMonth())} ${new Date().getDate() + index}`,
             cloudCover: cloudcover[index]
           })
-        })
+        }) 
         setWeatherData(data)
       })
   }, [])
