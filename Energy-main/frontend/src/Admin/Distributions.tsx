@@ -7,9 +7,9 @@ type VoidFunction = (value: boolean) => void
 export function Distributions({ onGeothermalUpdate, onFossilFuelUpdate }: { onGeothermalUpdate: VoidFunction, onFossilFuelUpdate: VoidFunction }) {
   const [demand, setDemand] = useState(0);
   const [gap, setGap] = useState(0);
-  const [homePower, setHomePower] = useState(0)
-  const [officePower, setOfficePower] = useState(0)
-  const [industryPower, setIndustryPower] = useState(0)
+  const [homePower, setHomePower] = useState(102)
+  const [officePower, setOfficePower] = useState(200)
+  const [industryPower, setIndustryPower] = useState(400)
   const [geothermal, setGeoThermal] = useState({ value: 0, cost: 0 });
   const [fossilFuel, setFossilFuel] = useState({ value: 0, cost: 0 })
   const [hydro, setHydro] = useState(0)
@@ -197,7 +197,7 @@ export function Distributions({ onGeothermalUpdate, onFossilFuelUpdate }: { onGe
 
             <Grid item xs={10}>
               <Typography variant="h6" color="text.secondary" fontWeight={500}>Home</Typography>
-              <Slider step={100} min={100} max={900} marks={marks} color="primary" defaultValue={102} aria-label="Disabled slider"
+              <Slider step={100} min={100} max={900} marks={marks} color="primary" defaultValue={homePower} aria-label="Disabled slider"
                 onChange={setHome} />
             </Grid>
             <Grid item xs={2}>
@@ -207,7 +207,7 @@ export function Distributions({ onGeothermalUpdate, onFossilFuelUpdate }: { onGe
           <Grid container spacing={2}>
             <Grid item xs={10}>
               <Typography variant="h6" color="text.secondary" fontWeight={500}>Office</Typography>
-              <Slider step={100} min={100} max={900} marks={marks} color="primary" defaultValue={200} aria-label="Disabled slider" onChange={setOffice} />
+              <Slider step={100} min={100} max={900} marks={marks} color="primary" defaultValue={officePower} aria-label="Disabled slider" onChange={setOffice} />
 
             </Grid>
             <Grid item xs={2}>
@@ -218,7 +218,7 @@ export function Distributions({ onGeothermalUpdate, onFossilFuelUpdate }: { onGe
           <Grid container spacing={2}>
             <Grid item xs={10}>
               <Typography variant="h6" color="text.secondary" fontWeight={500}>Industry</Typography>
-              <Slider step={100} min={100} max={900} marks={marks} color="primary" defaultValue={600} aria-label="Disabled slider"
+              <Slider step={100} min={100} max={900} marks={marks} color="primary" defaultValue={industryPower} aria-label="Disabled slider"
                 onChange={setIndustry} />
             </Grid>
             <Grid item xs={2}>
