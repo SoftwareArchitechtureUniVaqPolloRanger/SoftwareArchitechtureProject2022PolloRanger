@@ -42,7 +42,7 @@ const availability = {
   ],
 };
 
-export function Availability() {
+export function Availability({geoThermal, fossilFuel}: {geoThermal: boolean, fossilFuel: boolean}) {
   const [energyData, setEnergyData] = useState([]);
   const [totalEnergyData, setTotalEnergyData] = useState("")
   useEffect(() => {
@@ -61,19 +61,19 @@ export function Availability() {
           backgroundColor: "rgb(53, 162, 235)",
         }
       ])
-      const energyData = dataArr.reduce((acc, val) => acc+val, 0)
-    //@ts-ignore
-    //@ts-ignore
-    setTotalEnergyData(`${energyData} kW`);
+      const energyData = dataArr.reduce((acc, val) => acc + val, 0)
+      //@ts-ignore
+      //@ts-ignore
+      setTotalEnergyData(`${energyData} kW`);
 
     })
     //@ts-ignore
-      },[])
+  }, [geoThermal, fossilFuel])
 
-return (
-  <>
-    <h2>Availability: {totalEnergyData}</h2>
-    <Bar options={options} data={{ labels: availabilityLabels, datasets: energyData }} />
-  </>
-);
+  return (
+    <>
+      <h2>Availability: {totalEnergyData}</h2>
+      <Bar options={options} data={{ labels: availabilityLabels, datasets: energyData }} />
+    </>
+  );
 }

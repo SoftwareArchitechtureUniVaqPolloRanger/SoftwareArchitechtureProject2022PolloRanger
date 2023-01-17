@@ -2,13 +2,17 @@ import { useState, useEffect } from 'react'
 import { Card, CardContent, Grid, Slider, Switch, Typography } from "@mui/material";
 import axios from 'axios'
 
-export function Distributions() {
+type VoidFunction = (value: boolean) => void
+
+export function Distributions({ onGeothermalUpdate, onFossilFuelUpdate }: { onGeothermalUpdate: VoidFunction, onFossilFuelUpdate: VoidFunction }) {
   const [available, setAvailable] = useState(0);
   const [demand, setDemand] = useState(0);
   const [gap, setGap] = useState(0);
   const [homePower, setHomePower] = useState(0)
   const [officePower, setOfficePower] = useState(0)
   const [industryPower, setIndustryPower] = useState(0)
+  const [geothermal, setGeoThermal] = useState({ value: 0, cost: 0 });
+  const [fossilFuel, setFossilFuel] = useState({ value: 0, cost: 0 })
 
   useEffect(() => {
     //@ts-ignore
@@ -30,6 +34,10 @@ export function Distributions() {
     })
     //@ts-ignore
     // @ts-ignore
+    axios.get(`http://localhost:3001/power-plant/timestamp/2023-01-11T01:00:00Z`).then(response => {
+      setGeoThermal({ value: response?.data?.geothermal?.power, cost: response?.data?.geothermal?.cost })
+      setFossilFuel({ value: response?.data?.fossilFuel?.power, cost: response?.data?.fossilFuel?.cost })
+    })
 
   }, [])
   useEffect(() => {
@@ -65,8 +73,37 @@ export function Distributions() {
     setIndustryPower(v)
   }
 
+  const updateFossilFuel = ({ power, cost }: { power: number, cost: number }) => {
+    setFossilFuel({ value: power, cost })
+    axios.put(`http://localhost:3001/power-plant/timestamp/2023-01-11T01:00:00Z`, {
+      fossilFuel: {
+        "power": power,
+        "cost": cost,
+        "powerUnit": "kW",
+        "costUnit": "rp"
+      },
+    }).then(resp => {
+      console.log(resp)
+    })
+    onFossilFuelUpdate(power !== 0);
+  }
+  const updateGeoThermal = ({ power, cost }: { power: number, cost: number }) => {
+    setGeoThermal({ value: power, cost })
+    axios.put(`http://localhost:3001/power-plant/timestamp/2023-01-11T01:00:00Z`, {
+      geothermal: {
+        "power": power,
+        "cost": cost,
+        "powerUnit": "kW",
+        "costUnit": "rp"
+      },
+    }).then(resp => {
+      console.log(resp)
+    })
+    onGeothermalUpdate(power !== 0);
+  }
+
   useEffect(() => {
-    if(officePower && homePower && industryPower){
+    if (officePower && homePower && industryPower) {
       axios.put(`http://localhost:4002/power-supplier/power-distribution/timestamp/2023-01-11T01:00:00Z`, {
         timestamp: "2023-01-11T01:00:00Z",
         residentialAreaSupply: homePower,
@@ -75,12 +112,12 @@ export function Distributions() {
         cost: ""
       }).then(res => {
         console.log(res)
-      }).catch(err =>{
+      }).catch(err => {
         console.error(err)
       })
-  
+
     }
-    
+
   }, [homePower, industryPower, officePower])
   const marks = [
     {
@@ -191,14 +228,19 @@ export function Distributions() {
 
         </Grid>
         <Grid item container justifyContent='space-evenly'>
-          <div>
-            <Typography variant="h6" color="text.secondary" fontWeight={500}>Geothermal</Typography>
-            <Switch />
-          </div>
-          <div>
-            <Typography variant="h6" color="text.secondary" fontWeight={500}>Fossil Fuels</Typography>
-            <Switch />
-          </div>
+          <Grid item xs={6}>
+            <div>
+              <Typography variant="h6" color="text.secondary" fontWeight={500}>Geothermal:{`${geothermal.value} kW`}</Typography>
+              <Switch checked={geothermal.value !== 0} onChange={(_, v) => updateGeoThermal({ power: v === true ? 100 : 0, cost: v === true ? 10 : 0 })} />
+            </div>
+          </Grid>
+          <Grid item xs={6}>
+            <div>
+              <Typography variant="h6" color="text.secondary" fontWeight={500}>Fossil Fuels: {`${fossilFuel.value} kW`}</Typography>
+              <Switch checked={fossilFuel.value !== 0} onChange={(_, v) => updateFossilFuel({ power: v === true ? 100 : 0, cost: v === true ? 10 : 0 })} />
+            </div>
+          </Grid>
+
         </Grid>
       </Grid>
     </>

@@ -16,6 +16,8 @@ import {useNavigate} from 'react-router-dom'
 export default function Admin() {
   const [selectedWave, setSelectedWave] = useState<WaveModel>()
   const [selectedWeather, setSelectedWeather] = useState<WeatherModel>()
+  const [geoThermalToggle, setGeoThermalToggle] = useState(false);
+  const [fossilFuelToggle, setFossilFuelToggle] = useState(false);
   const navigate = useNavigate();
 
   const logout = (e: any) => {
@@ -47,7 +49,7 @@ export default function Admin() {
             <UserConsumption />
           </Grid>
           <Grid item xs={6}>
-            <Availability />
+            <Availability fossilFuel={fossilFuelToggle} geoThermal={geoThermalToggle} />
           </Grid>
           <Grid item xs={12}>
             <WeatherCards onSelect={setSelectedWeather} />
@@ -60,7 +62,10 @@ export default function Admin() {
           <Predictions wave = {selectedWave} weather={selectedWeather}/>
         </Grid>
         <Grid item xs={12}>
-          <Distributions />
+          <Distributions 
+            onGeothermalUpdate={(value) => setGeoThermalToggle(value)}
+            onFossilFuelUpdate={(value) => setFossilFuelToggle(value)}
+          />
         </Grid>
         <br />
         <br />

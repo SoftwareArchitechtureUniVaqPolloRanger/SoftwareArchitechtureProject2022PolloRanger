@@ -47,6 +47,42 @@ router.put('/:id', PowerPlantController.update);
 /*
  * DELETE
  */
+
+router.put('/timestamp/:timestamp', function(req, res){
+    var timestamp = req.params.timestamp;
+        PowerPlantModel.findOne({ timestamp: timestamp }, function (err, PowerPlant) {
+            if (err) {
+                return res.status(500).json({
+                    message: 'Error when getting PowerPlant',
+                    error: err
+                });
+            }
+            if (!PowerPlant) {
+                return res.status(404).json({
+                    message: 'No such PowerPlant'
+                });
+            }
+
+            PowerPlant.timestamp = req.body.timestamp ? req.body.timestamp : PowerPlant.timestamp;
+            PowerPlant.hydro = req.body.hydro ? req.body.hydro : PowerPlant.hydro;
+            PowerPlant.solar = req.body.solar ? req.body.solar : PowerPlant.solar;
+            PowerPlant.geothermal = req.body.geothermal ? req.body.geothermal : PowerPlant.geothermal;
+            PowerPlant.fossilFuel = req.body.fossilFuel ? req.body.fossilFuel : PowerPlant.fossilFuel;
+
+
+            PowerPlant.save(function (err, PowerPlant) {
+                if (err) {
+                    return res.status(500).json({
+                        message: 'Error when updating PowerPlant.',
+                        error: err
+                    });
+                }
+
+                return res.json(PowerPlant);
+            });
+        });
+})
+
 router.delete('/:id', PowerPlantController.remove);
 
 module.exports = router;

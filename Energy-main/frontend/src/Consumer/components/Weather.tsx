@@ -73,16 +73,20 @@ import {
     useEffect(()=>{
         if(weatherData){
             if(weatherData?.[0]?.weather==="Sunny" || weatherData?.[0]?.weather==="PartiallyCloudy"){
-                 setSuggestions("1- Use washing machine in daytime.\0 2- Minimize use of stove in nightime.\0 3- Cut down using heater in daytime")
+                 const sugg = "Use washing machine in daytime.\n Minimize use of stove in nightime.\n Cut down using heater in daytime";
+                 //@ts-ignore
+                 setSuggestions(sugg.split('\n').map(line => <li>{line}</li>))
             }
+            //@ts-ignore
             if(weatherData?.[0]?.weather==="Rainy" || weatherData?.[0]?.weather==="Cloudy"){
-                setSuggestions("1- Avoid using washing machine in these days.\0 2- Try to cut down use of stove.\0 3- Try to use automatic heaters")
+                const sugg=" Avoid using washing machine in these days.\n  Try to cut down use of stove.\n Try to use automatic heaters";
+                //@ts-ignore
+                setSuggestions(sugg.split('\n').map(line => <li>{line}</li>))
             }
         }
     }, [weatherData])
     return (
       <>
-        <h2>Weather Forecast</h2>
         <Grid container spacing={'10px'}>
           {weatherData.map((weather, index) => (
             <Grid item xs={2}>
@@ -122,7 +126,11 @@ import {
             </Grid>
           ))}
         </Grid>
-        <div className = "m4 d-flex justify-content-center align-items-center">{suggestions}</div>
+        <div className="d-flex align-items-center justify-content center m-4 container">
+        <h2 className = "d-flex justify-content-center align-items-center">Suggestions</h2>
+        <p className="d-flex justify-content-center align-items-center" style={{ marginBottom: "50px" , paddingBottom: "50px"}}>{suggestions}</p>
+        </div>        
+        
       </>
     );
   }
