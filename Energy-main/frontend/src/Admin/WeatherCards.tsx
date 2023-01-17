@@ -45,10 +45,10 @@ export function WeatherCards({ onSelect }: { onSelect: (weatherModel: WeatherMod
     axios.get('https://api.open-meteo.com/v1/forecast?latitude=-6.211051&longitude=106.845910&hourly=temperature_2m,weathercode,cloudcover')
       .then(resp => {
         const data: WeatherModel[] = [];
-        const temperature = resp.data.hourly.temperature_2m.slice(6);
-        const cloudcover = resp.data.hourly.cloudcover.slice(6);
-        [0 ,23 ,47 ,71 ,95 ,121].forEach(index => {
-          const code = resp.data.hourly.weathercode[index];
+        const temperature = resp.data.hourly.temperature_2m;
+        const cloudcover = resp.data.hourly.cloudcover;
+        [0 ,23 ,47 ,71 ,95 ,121].forEach((value, index) => {
+          const code = resp.data.hourly.weathercode[value];
           let weatherType = WeatherType.Sunny;
           if (code === 0 || code === 1) {
             weatherType = WeatherType.Sunny
@@ -63,10 +63,10 @@ export function WeatherCards({ onSelect }: { onSelect: (weatherModel: WeatherMod
             weatherType = WeatherType.Rainy
           }
           data.push({
-            temperature: temperature[index],
+            temperature: temperature[value],
             weather: weatherType,
             time: `${formatMonth(new Date().getMonth())} ${new Date().getDate() + index}`,
-            cloudCover: cloudcover[index]
+            cloudCover: cloudcover[value]
           })
         }) 
         setWeatherData(data)
