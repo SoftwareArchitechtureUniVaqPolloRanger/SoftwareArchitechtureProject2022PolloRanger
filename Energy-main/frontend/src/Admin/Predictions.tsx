@@ -7,8 +7,8 @@ import { PropaneSharp } from '@mui/icons-material';
 export function Predictions({ weather, wave }: { weather?: WeatherModel, wave?: WaveModel }) {
   const [sunPerc, setSunPerc] = useState("");
   const [calculateWeather, setCalculatedWeather] = useState(0)
-  const numberOfPanels = 500;
-  const panelCapacity = 90;
+  const numberOfPanels = 50;
+  const panelCapacity = 50;
   const [waveEnergy, setWaveEnergy] = useState(0);
   useEffect(() => {
     const sunPercentage = 100 - (weather?.cloudCover || 0)

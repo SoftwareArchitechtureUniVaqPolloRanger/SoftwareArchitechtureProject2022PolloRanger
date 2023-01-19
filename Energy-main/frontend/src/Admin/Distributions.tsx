@@ -60,6 +60,10 @@ export function Distributions({ onGeothermalUpdate, onFossilFuelUpdate }: { onGe
     else if (available - demand >= 0) {
       setGap(0)
     }
+    axios.post('http://localhost:2500/SmartGridService/UnusedStorageService/', {
+      power: available-demand,
+      unit:'kW', timestamp: "2023-01-11T01:00:00Z"
+    }).then(res => console.log(res))
   }, [geothermal, fossilFuel, hydro, solar])
   //@ts-ignore
   const setHome = (e, v) => {
